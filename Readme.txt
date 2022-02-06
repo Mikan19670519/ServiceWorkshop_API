@@ -1,6 +1,6 @@
 Notes on how I approached and tested this solution (Visual Studio 2019):
 
-I Created a Winform Solution called ServiceWorkshop using the .NET 4.7.2 Framework.
+I Created a Winform Solution for the front-end, called ServiceWorkshop using the .NET 4.7.2 Framework.
 I Created an API called ServiceWorkshopAPI using .NET 5.0
 
 Further functionality could be added, such as log all errors to a serilog file .
