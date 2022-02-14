@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using ServiceWorkshopAPI.Data.Contracts;
 using ServiceWorkshopAPI.Data.DataContexts;
 using ServiceWorkshopAPI.Data.Entities;
 using ServiceWorkshopAPI.Models;
+using ServiceWorkshopAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +13,10 @@ using System.Threading.Tasks;
 
 namespace ServiceWorkshopAPI.Data.Services
 {
-	public class VehicleService : IVehicleService
+	public class VehicleService : BaseService, IVehicleService
 	{
-		private readonly ServiceWorkshopDbContext _dbContext;
-		private readonly IMapper _mapper;
-		protected readonly ILogger<VehicleService> _logger;
-
-		public VehicleService(ServiceWorkshopDbContext dbContext, IMapper mapper, ILogger<VehicleService> logger)
+		public VehicleService(ServiceWorkshopDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
 		{
-			_dbContext = dbContext;
-			_mapper = mapper;
-			_logger = logger;
 		}
 
 		public async Task<VehicleModel> AddVehicleAsync(VehicleModel model)
@@ -58,7 +52,7 @@ namespace ServiceWorkshopAPI.Data.Services
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.Error(ex.Message);
 				return null;
 			}
 		}
@@ -88,7 +82,7 @@ namespace ServiceWorkshopAPI.Data.Services
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.Error(ex.Message);
 				return null;
 			}
 		}
@@ -112,7 +106,7 @@ namespace ServiceWorkshopAPI.Data.Services
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.Error(ex.Message);
 				return null;
 			}
 		}
@@ -137,7 +131,7 @@ namespace ServiceWorkshopAPI.Data.Services
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.Error(ex.Message);
 				return null;
 			}
 		}
@@ -161,7 +155,7 @@ namespace ServiceWorkshopAPI.Data.Services
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.Error(ex.Message);
 				return false;
 			}
 		}
@@ -186,7 +180,7 @@ namespace ServiceWorkshopAPI.Data.Services
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.Error(ex.Message);
 				return null;
 			}
 		}

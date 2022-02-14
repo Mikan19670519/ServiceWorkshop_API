@@ -1,26 +1,31 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Serilog;
 
 namespace ServiceWorkshopAPI
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			CreateHostBuilder(args).Build().Run();
-		}
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            Log.Logger = new LoggerConfiguration()
+                        .WriteTo.Console()
+                        .CreateBootstrapLogger();
 
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-			Host.CreateDefaultBuilder(args)
-				.ConfigureWebHostDefaults(webBuilder =>
-				{
-					webBuilder.UseStartup<Startup>();
-				});
-	}
+            Log.Information("Starting up");
+
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                })
+            .UseSerilog((ctx, lc) => lc
+            .WriteTo.Console()
+            .ReadFrom.Configuration(ctx.Configuration)
+            .WriteTo.Seq("https://localhost:5001"));
+    }
 }
